@@ -13,35 +13,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import tech.biblioteca.Biblioteca.entities.User;
-import tech.biblioteca.Biblioteca.services.UserService;
+import tech.biblioteca.Biblioteca.entities.Book;
+import tech.biblioteca.Biblioteca.services.BookService;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/books")
+public class BookController {
 
-private final UserService userService;
+private final BookService BookService;
 
-public UserController(UserService userService) {
-this.userService = userService;
+public BookController(BookService BookService) {
+this.BookService = BookService;
 }
 
 
 
 
 @PostMapping
-public ResponseEntity<List<User>> create(@RequestBody @Valid User user){
-return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(user));
+public ResponseEntity<List<Book>> create(@RequestBody @Valid Book Book){
+return ResponseEntity.status(HttpStatus.CREATED).body(BookService.create(Book));
 }
 
 @GetMapping
-public List<User> getAll(){
-return userService.getAll();
+public List<Book> getAll(){
+return BookService.getAll();
 }
 
 @GetMapping("/{id}")
-public ResponseEntity<User> getByid(@PathVariable Long id){
-User obj = userService.getById(id);
+public ResponseEntity<Book> getByid(@PathVariable Long id){
+Book obj = BookService.getById(id);
 return ResponseEntity.ok().body(obj);
 }
 
