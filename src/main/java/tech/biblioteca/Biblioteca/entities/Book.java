@@ -3,6 +3,8 @@ package tech.biblioteca.Biblioteca.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ private Long id;
 private String name;
 @ManyToOne
 @JoinColumn(name = "author_id")
+@JsonIgnore
 private Author author;
 private LocalDate realeaseDate;
 private String categorie;
