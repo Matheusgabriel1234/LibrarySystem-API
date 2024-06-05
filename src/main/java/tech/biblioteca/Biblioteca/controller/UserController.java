@@ -1,6 +1,9 @@
 package tech.biblioteca.Biblioteca.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import tech.biblioteca.Biblioteca.DTO.UserCreateDTO;
+import tech.biblioteca.Biblioteca.DTO.UserDTO;
 import tech.biblioteca.Biblioteca.entities.User;
 import tech.biblioteca.Biblioteca.services.UserService;
 
@@ -32,30 +37,38 @@ this.userService = userService;
 
 
 @PostMapping
-public ResponseEntity<List<User>> create(@RequestBody @Valid User user){
+public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO user){
 return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(user));
 }
 
 @GetMapping
-public List<User> getAll(){
-return userService.getAll();
+public ResponseEntity<List<UserDTO>> getAll(){
+	List<UserDTO> user = userService.getAll();
+	return new ResponseEntity<>(user,HttpStatus.OK);
 }
 
 @GetMapping("/{id}")
-public ResponseEntity<User> getByid(@PathVariable Long id){
-User obj = userService.getById(id);
-return ResponseEntity.ok().body(obj);
+public ResponseEntity<UserDTO> getByid(@PathVariable Long id){
+UserDTO obj = userService.getById(id);
+return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
 @DeleteMapping("/{id}")
-public List<User> deleteById(@PathVariable Long id){
-	List<User> obj = userService.delete(id);
+public List<UserDTO> deleteById(@PathVariable Long id){
+	List<UserDTO> obj = userService.delete(id);
 	return obj;
 }
 
-@PutMapping
-public List<User> update(@RequestBody User user){
-	return userService.update(user);
+@PutMapping("/{id}")
+public ResponseEntity<UserDTO> update(@PathVariable Long id,@RequestBody UserCreateDTO user){
+UserDTO newUser = userService.update(id,user);
+return new ResponseEntity<>(newUser,HttpStatus.CREATED) ;
+}
+
+@GetMapping("/firstname/{firstName}")
+public ResponseEntity<List<UserDTO>> getUserbyfirstName(@PathVariable String firstName){
+List<UserDTO> obj = userService.getByFirstName(firstName.toLowerCase());
+return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
 }

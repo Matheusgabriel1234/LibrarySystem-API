@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import tech.biblioteca.Biblioteca.DTO.UserDTO;
 import tech.biblioteca.Biblioteca.entities.User;
 
 public interface UserRepository extends JpaRepository<User,Long>{
 
-public Optional<List<User>> findByFirstName(String firstName); 
+public List<User> findByFirstName(String firstName); 
 }
