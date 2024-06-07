@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import tech.biblioteca.Biblioteca.entities.Book;
 import tech.biblioteca.Biblioteca.entities.User;
-
+import tech.biblioteca.Biblioteca.exceptions.ObjectNotFound;
 import tech.biblioteca.Biblioteca.services.BookService;
 import tech.biblioteca.Biblioteca.services.UserService;
 
@@ -46,12 +46,18 @@ return bookService.getAll();
 @GetMapping("/{id}")
 public ResponseEntity<Book> getByid(@PathVariable Long id){
 Book obj = bookService.getById(id);
+if(obj == null) {
+	throw new ObjectNotFound("User not find with the id: " + id);
+}
 return ResponseEntity.ok().body(obj);
 }
 
 @DeleteMapping("/{id}")
 public List<Book> delete(@PathVariable Long id){
 List<Book> obj = bookService.delete(id);
+if(obj == null) {
+	throw new ObjectNotFound("User not find with the id: " + id);
+}
 return obj;
 }
 
